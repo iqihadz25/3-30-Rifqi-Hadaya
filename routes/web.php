@@ -37,10 +37,10 @@ Route::get('/gallery', function () {
 
 Route::resource('/contacts', ContactController::class);
 
-Auth::routes();
+Auth::Routes();
 
 Route::group(['middleware' => ['auth']], function () {
-Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 });
 
