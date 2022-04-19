@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,32 +15,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/', function () {
     return view('index', [
         "title" => "Beranda"
     ]);
 });
-
 Route::get('/about', function () {
     return view('about', [
         "title" => "About",
-        "nama" => "Iqi Hadaya",
-        "email" => "iqihadz25@student.smktelkom-pwt.sch.id",
-        "gambar" => "FOto Jaran.jpeg"
+        "nama" => "Wisnu Rananta Raditya Putra",
+        "email" => "3103120231@student.smktelkom-pwt.sch.id",
+        "gambar" => "radit.jpeg"
     ]);
 });
-
 Route::get('/gallery', function () {
     return view('gallery', [
         "title" => "Gallery"
     ]);
 });
+// Route::resource('/contacts', ContactController::class);
+Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
+Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
 
-Route::resource('/contacts', ContactController::class);
+Auth::routes();
 
-Auth::Routes();
-
-Route::group(['middleware' => ['auth']], function () {
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/contacts/index', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+    Route::post('/contacts/{id}/update', [ContactController::class, 'update'])->name('contacts.update');
+    Route::get('/contacts/{id}/destroy', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
 });
-
